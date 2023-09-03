@@ -1,0 +1,143 @@
+
+### Arch Linux Install ###
+
+ls /usr/share/kbd/keymaps/**/*.map.gz | less
+loadkeys de-latin1
+
+iwctl
+device list
+
+station (usually wlan0) get-networks
+station (wlan0) connect (name of your wifi)
+
+ping google.com
+
+timedatectl set-ntp true
+timedatectl status
+
+fdisk -l
+lsblk
+fdisk dev/sda
+mkfs.fat -F32 /dev/sda1
+mkswap /dev/sda2
+swapon /dev/sda2
+mkfs.ext4 /dev/sda3
+mkfs.ext4 /dev/sda4
+
+mount /dev/sda3 /mnt
+mkdir -p /mnt/boot/EFI
+mkdir -p /mnt/home
+mount /dev/sda1 /mnt/boot/EFI
+mount /dev/sda4 /mnt/home
+
+pacstrap /mnt base linux linux-firmware
+
+genfstab -U /mnt >> mnt/etc/fstab
+cat mnt/etc/fstab
+
+arch-chroot /mnt
+
+ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
+
+hwclock --systohc
+
+# uncomment your locale 'en_US.UTF-8 UTF-8'
+vim etc/locale.gen
+locale-gen
+
+vim /etc/hostname
+vim /etc/hosts
+
+127.0.0.1	localhost
+::1		localhost
+127.0.1.1	arch.localdomain	arch
+
+passwd
+useradd -m Name_of_the_user
+passwd 
+usermod -aG wheel,video,audio,optical,storage
+pacman -S sudo base-devel
+# uncomment %wheel=(ALL) ALL
+EDITOR=vim visudo
+
+pacman -S grub
+pacman -S efibootmgr dosfstools os-prober mtools
+
+grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
+
+grub-mkconfig -o /boot/grub/grub.cfg
+
+pacman -S networkmanager nano base-devel git firefox
+
+systemctl enable NetworkManager
+
+unmount -l /mnt
+
+reboot
+
+nmcli d
+nmcli r wifi on
+nmcli d wifi list
+nmcli -a d wifi connect ...
+
+#pacman Ss lspci -v | grep -A1 -e VGA -e 3D
+
+pacman -Ss xf86-video
+pacman -S    ...intel
+
+pacman -S xorg-server xorg-xinit xorg-apps
+
+pacman -S qtile alacritty 
+
+# edit xinitrc in home directory:
+# qtile start
+
+vim .xinitrc
+
+startx
+
+# lxappearance 
+# archlinux-wallpaper
+
+pacman -S picom nitrogen unclutter
+
+# edit .xinitrc  (.xprofile) 
+
+vim .xinitrc
+ 
+# Disable beep
+xset -b
+
+# Set keyboard (in x) to pl and switch capslock for control
+# setxdbmp -layout pl -option ctrl:nocaps
+# setxkbmp pl
+
+# Start compositor for fancy visuals
+picom -f &
+
+# Unclutter -hide the mouse cursor
+unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
+
+# Nitrogen for wallpaper
+nitrogen --set-zoom-fill ~/Pictures/wallpaper.jpg &
+#nitrogen --restore
+
+# Start qtile window manager
+qtile start
+
+
+
+# Run qtile
+startx
+
+
+
+
+
+
+
+
+
+
+
+

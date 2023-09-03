@@ -1,0 +1,15 @@
+### ls ~/config/rofi 
+#	scripts, themes, config, config.rasi
+
+### config.rasi:
+# configuration {
+#	theme: "~/.config/rofi/themes/file.rast";
+# }
+
+# cd themes(css:) 
+  
+# rofi -show run (shows binaries)
+# rofi -show drun (shows .desktop files)
+# rofi -show ssh
+# rofi -show window (shows open programs)
+

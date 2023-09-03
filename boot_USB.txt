@@ -1,0 +1,2 @@
+dd bs=4M if=/path to ISO of=/your USB conv=fdatasync
+dd if=/path to ISO | pv | sudo dd of=/your USB bs=4M conv=fdatasync

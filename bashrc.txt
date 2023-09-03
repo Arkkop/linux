@@ -1,0 +1,4 @@
+#bash config files
+#/etc/profile /etc/bashrc.bashrc
+# ~/.bash_profile ~/.bash_login ~/.profile
+# ~/.bashrc ~/.bash_logout ~/.inputrc

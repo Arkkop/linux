@@ -1,0 +1,318 @@
+
+### Arch Linux Install ###
+
+# choose the keybord layout
+# the default keyboard is us
+# you may skip this step if it's ok for you
+
+
+ls /usr/share/kbd/keymaps/**/*.map.gz | less
+loadkeys de-latin1
+
+# if you have earhernet you should be good;
+# if you need to hook up to wifi
+# use iwctl command
+
+iwctl
+device list
+
+# choose your adapter from the list,
+# usually it's wlan0 or sth. similar
+
+station (usually wlan0) get-networks
+station (wlan0) connect (name of your wifi)
+YOUR WIFI PASSWORD
+
+# check if the internet is working
+
+ping google.com
+
+#
+timedatectl set-ntp true
+timedatectl status
+
+# list your disks
+
+fdisk -l
+lsblk
+
+# your disk is usually /dev/sda or /dev/sdb
+# be sure to choose the correct one, because you're 
+# going to wipe the disk out;
+# we need at least 2 partitions: 'EFI system' and 'root'; 
+# 'swap' and 'home' are optional
+# partition the disk:
+# 'EFI system'  -  550M
+# 'swap'	-  2G or more (if you want to use hibernation
+# 			then it should be the size of your RAM)
+# 'root'	-  30G or more (it's where your programmes are) 
+# 'home'	-  20G (for your docs and pics, video etc)
+# 
+# use fdisk or cfdisk(more 'graphical')to create these partitions
+# remember to write (w) the changes before leving the programme;
+
+fdisk dev/sda
+
+# when in doubt use help (m) 
+# create an empty GPT partition table
+
+g
+
+# create a new partition  
+
+n
+
+# give a number to the partitions
+
+1
+
+# give the size of the partition;
+# we leave the first sector default;
+# instead of the last sector we write
+# the size of the partition with + 
+# in front of the size
+
++550M
+
+# create partition 2 of 2G;
+# then partition 3 of 30G;
+# and partition 4 of 20G
+
+
+
+# change the type of EFI partition and swap
+# you can list the types of partitions (L) 
+# to choose the needed one;
+# 'EFI system' is 1 on the list
+# swap is 19; we don't need to change
+# root and home, because they were made
+# as linux system automatically
+
+t
+
+# write the changes
+
+w
+
+# format the partitions you made
+
+mkfs.fat -F32 /dev/sda1
+mkswap /dev/sda2
+mkfs.ext4 /dev/sda3
+mkfs.ext4 /dev/sda4
+
+# 'turn the swap on'
+
+swapon /dev/sda2
+
+# mount the root partition
+
+mount /dev/sda3 /mnt
+
+# make directories for Efi and home;
+
+mkdir -p /mnt/boot/EFI
+mkdir -p /mnt/home
+
+# mount EFI partition and home
+
+mount /dev/sda1 /mnt/boot/EFI
+mount /dev/sda4 /mnt/home
+
+# install ArchLinux on /mnt
+
+pacstrap /mnt base linux linux-firmware
+
+# generate the file system table
+
+genfstab -U /mnt >> mnt/etc/fstab
+
+# check if everything is as it should be
+
+cat mnt/etc/fstab
+
+# chroot to mnt 
+
+arch-chroot /mnt
+
+# set your local zone
+
+ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
+
+# sync the clock
+
+hwclock --systohc 
+
+# uncomment your locale 'en_US.UTF-8 UTF-8'
+
+vim /etc/locale.gen
+
+# generate locale
+
+locale-gen
+
+# name your system; just type the name of your choice;
+# it's your HOST_NAME
+
+vim /etc/hostname
+
+# type the three lines in '/etc/hosts'
+
+vim /etc/hosts
+
+	127.0.0.1	localhost
+	::1		localhost
+	127.0.1.1	HOST_NAME.localdomain	HOST_NAME
+
+# create a password for root
+
+passwd
+
+# create a user and a password for the user
+
+useradd -m Name_of_the_user
+passwd 
+
+# make user a member of the wheel group;
+# optionally also oter groups
+
+usermod -aG wheel,video,audio,optical,storage
+
+# install sudo
+
+pacman -S sudo
+
+# uncomment %wheel=(ALL) ALL
+
+EDITOR=vim visudo
+
+# install grub
+
+pacman -S grub
+
+# install needed programmes alongside grub
+
+pacman -S efibootmgr dosfstools os-prober mtools
+
+# install grub
+
+grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
+
+# make a grub config file
+
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# install tools for network
+
+pacman -S networkmanager nano base-devel git firefox
+
+# enable NM
+
+systemctl enable NetworkManager
+
+# unmount /mnt 
+
+exit
+unmount -l /mnt
+
+# reboot
+
+reboot
+
+# connect to the network
+
+nmcli d
+nmcli r wifi on
+nmcli d wifi list
+nmcli -a d wifi connect ...
+
+
+
+####### install xorg
+
+pacman Ss lspci -v | grep -A1 -e VGA -e 3D
+
+# list all available drivers
+# install the one for you
+
+pacman -Ss xf86-video
+pacman -S  intel
+
+# install xorg
+
+pacman -S xorg-server xorg-xinit xorg-apps
+
+# install qtile
+
+pacman -S qtile alacritty 
+
+# edit xinitrc in home directory:
+# 
+# qtile start
+
+vim .xinitrc
+
+# check
+
+cat .xinitrc
+
+
+
+# run qtile; alacritty will be default terminal
+# before that we shall somewhat customize qtile
+# proceed with picom installation, skip starting
+# qtile for now
+
+startx
+
+# install picom compositor for fancy stuff
+# like fading windows, opacity etc.
+# install nitrogen for wallpaper management
+# install unclutter which hides a mouse
+# pointer when not in use
+
+# lxappearance 
+# archlinux-wallpaper
+
+pacman -S picom nitrogen unclutter
+
+# edit .xinitrc  (.xprofile) 
+
+vim .xinitrc
+ 
+# Disable beep
+xset -b
+
+# Set keyboard (in x) to pl and switch capslock for control
+# setxdbmp -layout pl -option ctrl:nocaps
+# setxkbmp pl
+
+# Start compositor for fancy visuals
+picom -f &
+
+# Unclutter -hide the mouse cursor
+unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
+
+# Nitrogen for wallpaper
+nitrogen --set-zoom-fill ~/Pictures/wallpaper.jpg &
+#nitrogen --restore
+
+# Start qtile window manager
+qtile start
+
+
+
+# Run qtile
+startx
+
+
+
+
+
+
+
+
+
+
+
+

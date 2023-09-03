@@ -1,0 +1,6 @@
+#install xdg-user-dirs
+
+#create default user directories
+
+xdg-user-dirs-update
+

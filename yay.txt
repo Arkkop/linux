@@ -1,0 +1,36 @@
+
+# yay installation
+# needed dependencies: base-devel git
+git clone https://aur.archlinux.org/yay.git
+
+# change to yay folder
+
+makepkg -si
+yay --version
+
+  ##############
+
+# package statistics:
+# yay -Ps
+
+# search package on AUR and official reps
+# yay -Ss
+
+# get only PKGBUILD
+# yay -G
+# yay --getpkgbuild
+
+# print the PKGBUILD
+# yay -Gp
+
+# remove AUR package
+# yay -R 
+
+# remove package with its dependencies
+# yay -Rns
+
+# remove 
+# yay -Yc
+
+# update only AUR packages
+# yay -Sua

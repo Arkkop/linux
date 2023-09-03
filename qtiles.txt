@@ -1,0 +1,16 @@
+
+pacman -S  xf86-video-intel
+
+pacman -S xorg xorg-server xorg-xinit xorg-apps qtile alactitty
+
+### edit .xinitrc in home directory: (.xprofile with DM ) 
+	cp /etc/X11/xinit/xinitrc ~/.xinitrc
+	xset -b
+	setxdbmap -layout pl -option ctrl:nocaps
+	setxkbmap pl
+	picom -f &
+	unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
+	nitrogen --restore
+        exec qtile
+        
+pacman -S picom nitrogen unclutter lxappearance archlinux-wallpaper

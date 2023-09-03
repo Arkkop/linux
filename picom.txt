@@ -1,0 +1,3 @@
+# change config path
+  picom --config PATH TO PICOM.COM
+# fix no opacity(conf):

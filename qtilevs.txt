@@ -1,0 +1,15 @@
+
+pacman -S xf86-video-intel
+pacman -S xorg-server xorg-xinit qtile alacritty 
+cp /etc/X11/xinit/xinitrc ~/.xinitrc
+
+### edit .xinitrc in home directory
+
+	picom -f -b &
+	nitrogen --restore
+        qtile start
+        
+pacman -S picom nitrogen lxappearance archlinux-wallpaper
+
+reboot
+startx

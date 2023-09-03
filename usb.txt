@@ -1,0 +1,9 @@
+#Install udisks2
+
+#manual mount of a usb e.g./dev/sdc:
+
+udisksctl (un)mount -b /dev/sdc
+
+#automount -install udiskie 
+
+udiskie -A -t

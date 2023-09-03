@@ -1,0 +1,20 @@
+CLI - command-line-interface
+terminal emulator - software program that allows you to interact
+                    with computer's CLI eg. alacritty, kitty etc. 
+shell - command line interpreter e.g. bash, zsh, fish, sh
+PID - process identification number 
+X server -
+window manager -
+
+window compositor - software that sits between the window manager
+	and the X server. Responsible for visual effects eg. fading
+	
+
+
+
+
+
+
+
+
+

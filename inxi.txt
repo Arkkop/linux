@@ -1,0 +1,3 @@
+# check wnich compositor is running
+
+inxi -Gxx | grep compositor

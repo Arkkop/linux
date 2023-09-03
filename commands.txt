@@ -1,0 +1,26 @@
+echo $SHELL 	(what shell do i use)
+
+chmod u+rwx 	make the file readable, writable, executable;
+      g         group 
+      o		others
+		r=4 w=2 x=1
+      777	all permissions for all
+      700	all permissions for user
+	
+#! /bin/bash	shebang; the 1st line of a script;
+		combination of #bash and !bang;	
+
+echo "  "	print the string between " ";
+
+x="b"		declare a variable x as a string;
+$x 		call a variable x;
+
+a=$(command)	variable which captures the output of the command;
+		subshell $(command)
+		executes the command in the background
+
+date		reads current date and time
+
+$USER		user name
+$TERM		terminal
+env		list variables in your session

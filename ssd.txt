@@ -1,0 +1,6 @@
+### Windows wipe the disk out completely
+
+C:\Windows\system32\diskpart
+clean all
+
+# takes about an hour for 320G

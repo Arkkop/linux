@@ -1,0 +1,15 @@
+install pulseaudio (sound server)
+        alsa-utils (alsamixer and amixer)
+        pavucontrol
+        pulseaudio-alsa
+ 
+cat /proc/asound/cards	[lists sound cards]
+
+
+########
+
+
+
+
+
+

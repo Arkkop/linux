@@ -1,0 +1,4 @@
+#useful programmes
+
+lf  -- file manager
+shell-color-scripts   

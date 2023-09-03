@@ -1,0 +1,76 @@
+pacman Ss lspci -v | grep -A1 -e VGA -e 3D
+
+# list all available drivers
+# install the one for you
+
+pacman -Ss xf86-video
+pacman -S          ...intel
+
+# install xorg
+
+pacman -S xorg xorg-server xorg-xinit xorg-apps
+
+# install qtile
+
+pacman -S qtile alacritty 
+
+# install picom compositor for fancy stuff
+# like fading windows, opacity etc.
+# install nitrogen for wallpaper management
+# install unclutter which hides a mouse
+# pointer when not in use
+
+# lxappearance 
+# archlinux-wallpaper
+
+pacman -S picom nitrogen unclutter lxappearance
+
+ 
+# Disable beep in .xinitrc
+xset -b
+
+# Set keyboard (in x) to pl and switch capslock for control
+# setxdbmap -layout pl -option ctrl:nocaps
+# setxkbmap pl
+
+# Start compositor for fancy visuals
+picom -f &
+
+# Unclutter -hide the mouse cursor
+unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
+
+# Nitrogen for wallpaper
+nitrogen --set-zoom-fill ~/Pictures/wallpaper.jpg &
+#nitrogen --restore
+
+# Start qtile window manager
+qtile start
+
+#############
+
+cp /etc/X11/xinit/xinitrc /~/.xinitrc
+
+# edit .xinitrc
+# go to the end of the document
+# delete the last 5 lines starting with twm
+
+  nitrogen --restore &
+  picom -f &
+  qtile start
+
+
+
+# Run qtile
+startx
+
+
+
+
+
+
+
+
+
+
+
+
